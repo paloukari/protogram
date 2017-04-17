@@ -1,5 +1,5 @@
 ﻿using ProtoGram.Protocol;
-using ProtoGram.Protocol.Atp.Encoding;
+using ProtoGram.Protocol.Encoding;
 using ProtoGram.Protocol.Interfaces;
 using ProtoGram.Types;
 using System;

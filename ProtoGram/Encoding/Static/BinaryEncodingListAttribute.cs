@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProtoGram.Protocol.Atp.Encoding
+namespace ProtoGram.Protocol.Encoding
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class BinaryEncodingListAttribute : BinaryEncodingMemberAttribute

@@ -1,4 +1,4 @@
-﻿using ProtoGram.Protocol.Atp.Encoding;
+﻿using ProtoGram.Protocol.Encoding;
 using System;
 using System.Collections;
 using System.IO;
