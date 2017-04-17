@@ -1,0 +1,42 @@
+﻿{
+  "Type": 2,
+  "Name": "MessageRequest",
+  "Members": {
+    "MessageStatusCode": {
+      "Name": "MessageStatusCode",
+      "TypeCode": 9,
+      "LengthInBits": 8,
+      "Default": 0,
+      "IsArray": false,
+      "IsContract": false,
+      "IsConditional": false,
+      "ArrayLength": null,
+      "ContractDescription": null,
+      "Condition": null
+    },
+    "MessageDataLength": {
+      "Name": "MessageDataLength",
+      "TypeCode": 11,
+      "LengthInBits": 32,
+      "Default": 0,
+      "IsArray": false,
+      "IsContract": false,
+      "IsConditional": false,
+      "ArrayLength": null,
+      "ContractDescription": null,
+      "Condition": null
+    },
+    "MessageReport": {
+      "Name": "MessageReport",
+      "TypeCode": 4,
+      "LengthInBits": 8,
+      "Default": 0,
+      "IsArray": true,
+      "IsContract": false,
+      "IsConditional": false,
+      "ArrayLength": "MessageDataLength",
+      "ContractDescription": null,
+      "Condition": null
+    }
+  }
+}
