@@ -1,16 +1,18 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ProtoGram.Protocol.Interfaces;
 using ProtoGram.Types;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Dynamic;
 
 namespace ProtoGram.Types
 {
     [DataContract]
     [JsonConverter(typeof(DynamicContractValueConverter))]
-    public class DynamicContractValue : IDynamicContractValue
+    public class DynamicContractValue : DynamicObject, IDynamicContractValue
     {
         private DynamicContractDescription _dynamicMessageDescription;
         Dictionary<string, IDynamicValue> _data = new Dictionary<string, IDynamicValue>();
@@ -44,7 +46,14 @@ namespace ProtoGram.Types
         private void CreateDefaultValues()
         {
             foreach (var item in _dynamicMessageDescription.Members)
-                _data.Add(item.Key, new DynamicMemberValue() { Description = item.Value, Value = item.Value.Default });
+            {
+                var defaultValue = item.Value.Default;
+                if (item.Value.IsContract)
+                {
+                    defaultValue = new DynamicContractValue(item.Value.ContractDescription);
+                }
+                _data.Add(item.Key, new DynamicMemberValue(item.Value, defaultValue));
+            }
         }
 
         public Dictionary<string, IDynamicValue> Data
@@ -84,7 +93,7 @@ namespace ProtoGram.Types
                 else
                 {
                     if (!_data.ContainsKey(elementName))
-                        _data[elementName] = new DynamicMemberValue();
+                        _data[elementName] = new DynamicMemberValue(null, null);
                     _data[elementName].Value = value;
                 }
 
@@ -154,6 +163,33 @@ namespace ProtoGram.Types
                 }
 
             }
+        }
+
+         public override bool TryGetMember(
+           GetMemberBinder binder, out object result)
+        {
+            if (_data.ContainsKey(binder.Name))
+            {
+                result = _data[binder.Name].Value;
+                return true;
+            }
+            result = null;
+            return false;
+        }
+
+        public override bool TrySetMember(
+            SetMemberBinder binder, object value)
+        {
+            if (_data.ContainsKey(binder.Name))
+            {
+                if (value is JValue)
+                    _data[binder.Name].Value = ((JValue)value).Value;
+                else
+                    _data[binder.Name].Value = value;
+
+                return true;
+            }
+            return false;
         }
 
     }

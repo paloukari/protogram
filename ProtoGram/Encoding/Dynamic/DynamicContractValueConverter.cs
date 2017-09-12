@@ -42,10 +42,10 @@ namespace ProtoGram.Types
                             else
                                 temp[i] = ((JValue)jarray[i]).Value;
                         }
-                        target[((JProperty)child).Name] = new DynamicMemberValue() { Value = temp };
+                        target[((JProperty)child).Name] = new DynamicMemberValue(null, temp);
                     }
                     else
-                        target[((JProperty)child).Name] = new DynamicMemberValue() { Value = ((JValue)((JProperty)child).Value).Value };
+                        target[((JProperty)child).Name] = new DynamicMemberValue(null, ((JValue)((JProperty)child).Value).Value);
                 }
             }
             return target;

@@ -22,7 +22,7 @@ namespace ProtoGram.Example
     }
 
     [BinaryEncodingContract]
-    public class MessageDynamic
+    public class MessageDynamic 
     {
         private IDynamicContractValue _dynamicMessage;
 
@@ -30,6 +30,8 @@ namespace ProtoGram.Example
         public byte[] Data { get; set; }
 
         public IDynamicContractValue DynamicMessage { get { return _dynamicMessage; } set { _dynamicMessage = value; } }
+        
+        public dynamic Payload => _dynamicMessage;
 
         internal void Parse(DynamicContractDescription dynamicMessageDescription)
         {

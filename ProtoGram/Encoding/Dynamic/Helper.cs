@@ -38,7 +38,7 @@ namespace ProtoGram.Protocol.Encoding.Dynamic
                         }
                         object[] temp = new object[length];
 
-                        IDynamicMemberValue propValue = new DynamicMemberValue() { Description = property.Value };
+                        IDynamicMemberValue propValue = new DynamicMemberValue(property.Value, null);
 
                         for (int i = 0; i < length; i++)
                         {

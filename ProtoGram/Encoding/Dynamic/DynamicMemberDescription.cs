@@ -128,7 +128,7 @@ namespace ProtoGram.Types
             if (buffer.Length < this.LengthInBits)
                 return false;
 
-            var res = new DynamicMemberValue();
+            var res = new DynamicMemberValue(this, null);
 
             res.Description = this;
 

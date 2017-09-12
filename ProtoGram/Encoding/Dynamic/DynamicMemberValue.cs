@@ -10,6 +10,16 @@ namespace ProtoGram.Types
     [DataContract]
     public class DynamicMemberValue : IDynamicMemberValue
     {
+         public DynamicMemberValue(DynamicMemberDescription description, object value)
+        {
+            Description = description;
+            if (Description.IsArray)
+            { 
+                Value = new DynamicContractValue[0];
+            }
+            else
+                Value = value;
+        }
         [JsonIgnore]
         public DynamicMemberDescription Description { get; set; }
 

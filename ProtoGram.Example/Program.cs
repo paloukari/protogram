@@ -14,11 +14,14 @@ namespace ProtoGram.Example
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Reading the protocol configuration..");
             var dynamicDescription = JsonConvert.DeserializeObject<DynamicContractDescription>(File.ReadAllText("definition.json"));
 
+            Console.WriteLine("Generating message data..");
             ExampleMessage example = GenerateExample();
             ExampleMessage test = null;
 
+            Console.WriteLine("Creating buffer data..");
             byte[] exampleData = null;
 
             using (MemoryStream ms = new MemoryStream())
@@ -30,7 +33,7 @@ namespace ProtoGram.Example
 
             Console.WriteLine(Convert.ToBase64String(exampleData));
 
-
+            Console.WriteLine("Parsing buffer..");
             using (MemoryStream ms = new MemoryStream(exampleData))
             {
                 var formatter = new BitEncondingFormatter<ExampleMessage>();
@@ -39,8 +42,8 @@ namespace ProtoGram.Example
             test.MessageDynamic.Parse(dynamicDescription);
 
 
-            var messageReport = new string(Array.ConvertAll(test.MessageDynamic.DynamicMessage["MessageReport"].Value as object[], (e) => Convert.ToChar(e)));
-            var messageStatusCode = (int)test.MessageDynamic.DynamicMessage["MessageStatusCode"].Value;
+            var messageStatusCode = (int)test.MessageDynamic.Payload.MessageStatusCode;
+            var messageReport = new string(Array.ConvertAll(test.MessageDynamic.Payload.MessageReport as object[], (e) => Convert.ToChar(e)));
 
             Console.WriteLine($"MessageStatusCode = {messageStatusCode}");
             Console.WriteLine($"MessageReport = {messageReport}");
